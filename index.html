@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- Declaring the document type above is important. In this case, it's an HTML document. -->
+
+<!-- Open the document. -->
+<html>
+
+<!-- Open the header, which will conveniently load our scripts and such before the body is loaded. --> 
+<head>
+
+<!-- A little bit of information about the page and its author (me) -->
+
+<!--
+
+Dice version 1.0 by Charlton Trezevant
+
+Just a simple little thing I put together. 
+
+Licensed under the unlicense. 
+
+Have fun!
+
+2014
+-->
+
+<!-- Set the page title. -->
+<title>Dice.</title>
+
+<!-- This is the main script that controls the rolling of the dice, as well as setting up the page. -->
+<script type="text/javascript">
+function roll() { //Helper funtion that rolls the dice and sets a few variables.
+    die = Math.floor(Math.random() * (6 - 1 + 1)) + 1; //Get a random integer from 1-6.
+    console.log("Rolled", die); //Log that integer to the console.
+    img = "resources/images/" + die + ".png"; //Construct a path to the die images. 
+} //End of dice rolling helper function. 
+
+function run(){ //Set up the main function. 
+
+roll(); //Roll the dice. 
+document.getElementById('die1').src = img //Set the source attribute for the die image. 
+die1 = die; //Variable for comparison and total computation. 
+
+roll(); //Roll the dice.
+document.getElementById('die2').src = img //Set image source attribute for the die on the page. 
+
+if (die1 === die){ //Simple IF statement to check whether doubles were rolled. 
+document.getElementById('doubles').innerHTML="Doubles!"; //If doubles were rolled, then it will write "Doubles!" to the DOM. 
+document.getElementById('ding').play(); //It will also go "ding!".
+} else { //If not, though...
+document.getElementById('doubles').innerHTML=""; //It'll write an empty string, which also clears old doubles messages. 
+document.getElementById('roll').play(); //And it will also play the dice roll sound.
+}
+
+var total = die1+die; //Computes the total value rolled. 
+console.log('\n'); //Writes a new line to the console, for log formatting. 
+console.log("Total:",total); //Writes the total to the console. 
+document.getElementById('total').innerHTML=total; //Writes the total to the DOM. 
+
+} //End of main function. 
+</script>
+</head>
+
+<body>
+
+<!-- A nice div for our dice to live in. -->
+<div id="dice">
+
+<!-- An image with an empty src attribute, which the script above will fill in for us later. -->
+<img id="die1" src="">
+
+<!-- Same as above :) -->
+<img id="die2" src="">
+
+<!-- This bit will hold the total, and will also be filled in by the script. -->
+<span id="total"></span>
+
+<!-- 
+  This is a special element, because it's been styled with red text. This will get filled in by the script if the user rolls doubles. 
+  Note the CSS in the style attribute. 
+-->
+<span id="doubles" style="color: red;" ></span>
+
+<!-- End of our dice div. -->
+</div>
+
+<!-- This is a button that users can click to roll again. Note how it runs the "run" function when clicked. -->
+<button id="clicktoroll" onclick="run();">Roll again!</button>
+
+
+<!-- Here are our audio elements, which are played by the IF statement in the script. -->
+<audio id="roll" src="resources/audio/roll.mp3"></audio>
+<audio id="ding" src="resources/audio/ding.mp3"></audio>
+
+<!-- When the window first loads, then we'll go ahead and run our script! This will present the user with prerolled dice on page load. -->
+<script type="text/javascript">
+window.onload = run();
+</script>
+
+<!-- Close the body. -->
+</body>
+
+<!-- Close the document. -->
+</html>
